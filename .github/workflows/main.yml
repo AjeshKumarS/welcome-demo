@@ -38,14 +38,13 @@ jobs:
       env:
         DOCKER_USER: ${{secrets.DOCKER_USER}}
         DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
-        DOCKER_IMAGE: ${{secrets.DOCKER_IMAGE}}
       run: |
         docker login -u $DOCKER_USER -p $DOCKER_PASSWORD 
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag $DOCKER_IMAGE
+      run: docker build . -t ${{secrets.DOCKER_IMAGE}}
       
     - name: Docker Push
-      run: docker push $DOCKER_IMAGE
+      run: docker push ${{secrets.DOCKER_IMAGE}}
 
   deploy:
     needs: build-and-test
